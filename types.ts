@@ -20,6 +20,13 @@ export interface Facility {
   image?: string;
 }
 
+export interface SchoolEvent {
+  title: string;
+  description: string;
+  image: string;
+  date?: string;
+}
+
 export enum ChatState {
   IDLE,
   LOADING,
