@@ -24,12 +24,16 @@ Daily routine includes Morning Yoga.
 `;
 
 export const askGemini = async (question: string): Promise<string> => {
-  if (!process.env.API_KEY) {
-    return "Error: API Key is missing. Please configure the environment.";
+  // Safely access environment variables to prevent browser crashes if 'process' is undefined
+  const apiKey = (typeof process !== "undefined" && process.env) ? process.env.API_KEY : undefined;
+
+  if (!apiKey) {
+    console.warn("Gemini API Key is missing");
+    return "I apologize, but I am currently unable to connect to the service. Please contact the school administration directly.";
   }
 
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey: apiKey });
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: question,
